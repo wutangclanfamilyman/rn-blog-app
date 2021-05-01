@@ -94,7 +94,7 @@ const MainNavigator = createDrawerNavigator({
     contentOptions: {
         activeTintColor: THEME.MAIN_COLOR,
         itemStyle: {
-            marginTop: 40
+            marginTop: 10
         }
     }
 })
