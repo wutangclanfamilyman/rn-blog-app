@@ -1,10 +1,12 @@
 import React, {useEffect} from 'react'
+import {View, StyleSheet, ActivityIndicator} from 'react-native'
 import {useDispatch, useSelector} from 'react-redux'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import {AppHeaderIcon} from '../components/AppHeaderIcon'
 import { PostList } from '../components/PostList'
 import { LOAD_POSTS } from '../store/types'
 import { loadPosts } from '../store/actions/post'
+import { THEME } from '../theme'
 
 export const MainScreen = ({navigation}) => {
 
@@ -19,6 +21,13 @@ export const MainScreen = ({navigation}) => {
     }, [dispatch])
 
     const allPosts = useSelector(state => state.post.allPosts)
+    const loading = useSelector(state => state.post.loading)
+
+    if(loading) {
+        return <View style={styles.center}>
+            <ActivityIndicator color={THEME.MAIN_COLOR} />
+        </View>
+    }
 
     return (
         <PostList data={allPosts} onOpen={openPostHandler} />
@@ -29,7 +38,7 @@ MainScreen.navigationOptions = ({navigation}) => ({
     headerTitle: 'My Blog',
     headerRight: () => (
         <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-            <Item title="Take photo" iconName="ios-camera" onPress={() => console.log('Press photo')} />
+            <Item title="Take photo" iconName="ios-camera" onPress={() => navigation.push('Create')} />
         </HeaderButtons>
     ),
     headerLeft: () => (
@@ -39,3 +48,10 @@ MainScreen.navigationOptions = ({navigation}) => ({
     )
 })
 
+const styles = StyleSheet.create({
+    center: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+})
